@@ -5,6 +5,8 @@
     <h2>Create New Member</h2>
     <form action="{{ route('members.store') }}" method="POST">
         @csrf
+        @method('post')
+        
         <div class="mb-3">
             <label for="fname" class="form-label">First Name</label>
             <input type="text" class="form-control" id="fname" name="fname" required>

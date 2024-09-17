@@ -55,11 +55,12 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        $category = Category::findOrFail($id);
-        return view('categories.edit', compact('category'));
+        $category = Category::where('id', $id)->firstOrFail();
+        return view('categories.updateCategories', compact('category'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -84,11 +85,12 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $category = Category::findOrFail($id); 
-        $category->delete(); 
+        $category = Category::where('id', $id)->firstOrFail();
+        $category->delete();
 
-        return redirect()->route('categories.index')->with('success', 'Member deleted successfully.');
+        return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');
     }
+
 }

@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         schema::create('books', function (Blueprint $table) {
-            $table->id('bookId');
+            $table->id();
+            $table->string('title');
             $table->string('author');
             $table->string('isbn')->unique();
             $table->unsignedBigInteger('categoryId');
@@ -20,7 +21,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign key constraint
-            $table->foreign('categoryId')->references('categoryId')->on('categories');
+            $table->foreign('categoryId')->references('id')->on('categories');
         });
     }
 

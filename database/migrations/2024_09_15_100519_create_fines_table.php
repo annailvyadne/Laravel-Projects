@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('fines', function (Blueprint $table) {
-            $table->id('fineId');
+            $table->id();
             $table->unsignedBigInteger('memberId'); // Foreign key column for members
             $table->unsignedBigInteger('issueId');  // Foreign key column for issues
             $table->decimal('amount', 8, 2);
@@ -23,7 +23,7 @@ return new class extends Migration
 
             // Foreign key constraints
             $table->foreign('memberId')->references('id')->on('members');
-            $table->foreign('issueId')->references('issueId')->on('issues');
+            $table->foreign('issueId')->references('id')->on('issues');
         });
     }
 

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Reservation;
+use App\Models\Book; // Assuming you might want to reference books
+use App\Models\Member; // Assuming you might want to reference members
 
 class ReservationController extends Controller
 {
@@ -11,7 +14,8 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+        $reservations = Reservation::all(); // Fetch all reservations
+        return view('reservations.indexReservations', compact('reservations'));
     }
 
     /**
@@ -19,7 +23,9 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        //
+        $books = Book::all(); // Fetch all books for dropdown
+        $members = Member::all(); // Fetch all members for dropdown
+        return view('reservations.createReservations', compact('books', 'members'));
     }
 
     /**
@@ -27,38 +33,75 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'memberId' => 'required',
+            'bookId' => 'required',
+            'reservation_date' => 'required|date',
+            'status' => 'required|boolean',
+        ]);
+
+        Reservation::create([
+            'memberId' => $request->memberId,
+            'bookId' => $request->bookId,
+            'reservation_date' => $request->reservation_date,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('reservations.index')->with('success', 'Reservation created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $reservationId)
     {
-        //
+        $reservation = Reservation::findOrFail($reservationId);
+        return view('reservations.showReservations', compact('reservation')); // Ensure you have this view
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $reservationId)
     {
-        //
+        $reservation = Reservation::findOrFail($reservationId);
+        $books = Book::all(); // Fetch all books for dropdown
+        $members = Member::all(); // Fetch all members for dropdown
+        return view('reservations.updateReservations', compact('reservation', 'books', 'members'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $reservationId)
     {
-        //
+        $request->validate([
+            'memberId' => 'required',
+            'bookId' => 'required',
+            'reservation_date' => 'required|date',
+            'status' => 'required|boolean',
+        ]);
+
+        $reservation = Reservation::findOrFail($reservationId);
+
+        $reservation->update([
+            'memberId' => $request->memberId,
+            'bookId' => $request->bookId,
+            'reservation_date' => $request->reservation_date,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('reservations.index')->with('success', 'Reservation updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $reservationId)
     {
-        //
+        $reservation = Reservation::findOrFail($reservationId);
+        $reservation->delete();
+
+        return redirect()->route('reservations.index')->with('success', 'Reservation deleted successfully.');
     }
 }

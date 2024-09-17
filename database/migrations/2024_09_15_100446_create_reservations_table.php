@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         schema::create('reservations', function (Blueprint $table) {
-            $table->id('reservationId');
+            $table->id();
             $table->unsignedBigInteger('memberId'); // Foreign key column for members
             $table->unsignedBigInteger('bookId');   // Foreign key column for books
             $table->date('reservation_date');
@@ -21,7 +21,7 @@ return new class extends Migration
 
             // Foreign key constraints
             $table->foreign('memberId')->references('id')->on('members');
-            $table->foreign('bookId')->references('bookId')->on('books');
+            $table->foreign('bookId')->references('id')->on('books');
         });
     }
 

@@ -13,7 +13,7 @@ class MemberController extends Controller
     public function index()
     {
         $members = Member::all(); // Fetch all members from the database
-        return view('members.indexMembers', compact('members')); 
+        return view('members.indexMembers', compact('members'));
     }
 
     /**
@@ -42,7 +42,7 @@ class MemberController extends Controller
         ]);
 
         // Create and save the new member
-        Member::create([
+        $member = Member::create([
             'fname' => $request->fname,
             'lname' => $request->lname,
             'email' => $request->email,
@@ -54,9 +54,14 @@ class MemberController extends Controller
             'status' => $request->status,
         ]);
 
+        if ($member) {
+            dd('Member saved successfully!');
+        } else {
+            dd('Failed to save member!');
+        }
+
         return redirect()->route('members.index')->with('success', 'Member created successfully.');
     }
-
 
     /**
      * Display the specified resource.

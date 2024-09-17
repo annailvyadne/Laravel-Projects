@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('lname');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('address');
-            $table->string('phone_num');
+            $table->string('address')->nullable();;
+            $table->string('phone_num')->nullable();;
             $table->string('membership_type');
             $table->date('membership_date');
             $table->boolean('status')->default(true);

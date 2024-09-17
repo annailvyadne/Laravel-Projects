@@ -9,6 +9,7 @@ class Member extends Model
 {
     use HasFactory;
 
+    protected $table = 'members';
     protected $fillable = [
         'fname',
         'lname',
@@ -20,5 +21,10 @@ class Member extends Model
         'membership_date',
         'status',
     ];
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'memberId', 'memberId');
+    }
 }
 
