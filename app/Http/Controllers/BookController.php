@@ -31,6 +31,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
+        
         $request->validate([
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
@@ -39,6 +40,7 @@ class BookController extends Controller
             'status' => 'required|boolean', // Ensure status is validated as a boolean
         ]);
 
+        
         // Create and save the new book
         Book::create([
             'title' => $request->title,
@@ -66,8 +68,8 @@ class BookController extends Controller
     public function edit(string $id)
     {
         $book = Book::findOrFail($id);
-        $categories = Category::all(); // Fetch all categories for the dropdown
-        return view('books.updateBooks', compact('book', 'categories'));
+        $categories = Category::all(); // Fetch all categories
+        return view('books.updateBooks', compact('book', 'categories')); // Pass categories and book data to the view
     }
 
     /**
@@ -76,6 +78,7 @@ class BookController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
+            'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
             'isbn' => 'required',
             'categoryId' => 'required',
@@ -85,6 +88,7 @@ class BookController extends Controller
         $book = Book::findOrFail($id);
 
         $book->update([
+            'title' => $request->title,
             'author' => $request->author,
             'isbn' => $request->isbn,
             'categoryId' => $request->categoryId,
@@ -99,7 +103,7 @@ class BookController extends Controller
      */
     public function destroy(string $id)
     {
-        $book = Category::where('id', $id)->firstOrFail();
+        $book = Book::where('id', $id)->firstOrFail();
         $book->delete();
 
         return redirect()->route('books.index')->with('success', 'Book deleted successfully.');

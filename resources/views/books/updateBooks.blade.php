@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
     <h2>Update Book</h2>
-    <form action="{{ route('books.update', $book->bookId) }}" method="POST">
+    <form action="{{ route('books.update', $book->id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="form-group">
@@ -17,13 +17,14 @@
         </div>
         <div class="form-group">
             <label for="categoryId">Category:</label>
-            <select class="form-control" id="categoryId" name="categoryId" required>
-                @foreach($categories as $category)
-                    <option value="{{ $category->categoryId }}" {{ $book->categoryId == $category->categoryId ? 'selected' : '' }}>
-                        {{ $category->name }}
-                    </option>
-                @endforeach
-            </select>
+<select class="form-control" id="categoryId" name="categoryId" required>
+    @foreach($categories as $category)
+        <option value="{{ $category->id }}" {{ $book->categoryId == $category->id ? 'selected' : '' }}>
+            {{ $category->name }}
+        </option>
+    @endforeach
+</select>
+
         </div>
         <div class="form-group">
             <label for="status">Status:</label>

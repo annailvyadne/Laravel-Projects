@@ -11,7 +11,7 @@
             <select class="form-control" id="memberId" name="memberId" required>
                 <option value="">Select Member</option>
                 @foreach($members as $member)
-                    <option value="{{ $member->memberId }}">{{ $member->name }}</option>
+                    <option value="{{ $member->id }}">{{ $member->name }}</option>
                 @endforeach
             </select>
         </div>

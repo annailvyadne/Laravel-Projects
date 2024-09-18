@@ -9,11 +9,8 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    // Specify the primary key if it's different from the default
-    protected $primaryKey = 'reservationId';
-    public $incrementing = false;
-    protected $keyType = 'string'; // Set this to 'int' if your primary key is an integer
-
+    // Set this to 'int' if your primary key is an integer
+    protected $table = 'reservations';
     // Define fillable attributes
     protected $fillable = [
         'reservationId',
@@ -21,6 +18,7 @@ class Reservation extends Model
         'status',
     ];
 
+    
     /**
      * Get the member that owns the reservation.
      */

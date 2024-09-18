@@ -54,12 +54,6 @@ class MemberController extends Controller
             'status' => $request->status,
         ]);
 
-        if ($member) {
-            dd('Member saved successfully!');
-        } else {
-            dd('Failed to save member!');
-        }
-
         return redirect()->route('members.index')->with('success', 'Member created successfully.');
     }
 

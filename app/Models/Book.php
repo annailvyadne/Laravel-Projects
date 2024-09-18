@@ -24,6 +24,11 @@ class Book extends Model
      */
     public function category()
     {
-        return $this->belongsTo(Category::class, 'categoryId', 'categoryId');
+        return $this->belongsTo(Category::class, 'categoryId', 'id');
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'bookId', 'id');
     }
 }
