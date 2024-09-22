@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Reservation ID</th>
                 <th>Member ID</th>
                 <th>Book ID</th>
                 <th>Reservation Date</th>
@@ -19,7 +18,6 @@
         <tbody>
             @foreach($reservations as $reservation)
                 <tr>
-                    <td>{{ $reservation->reservationId }}</td>
                     <td>{{ $reservation->memberId }}</td>
                     <td>{{ $reservation->bookId }}</td>
                     <td>{{ $reservation->reservation_date->format('Y-m-d') }}</td>
@@ -27,8 +25,8 @@
                         {{ $reservation->status ? 'Active' : 'Inactive' }}
                     </td>
                     <td>
-                        <a href="{{ route('reservations.edit', $reservation->reservationId) }}" class="btn btn-primary">Edit</a>
-                        <form action="{{ route('reservations.destroy', $reservation->reservationId) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('reservations.edit', $reservation->id) }}" class="btn btn-primary">Edit</a>
+                        <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>

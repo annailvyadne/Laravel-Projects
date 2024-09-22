@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Reservation;
 use App\Models\Book; // Assuming you might want to reference books
 use App\Models\Member; // Assuming you might want to reference members
+use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
@@ -33,17 +34,22 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the input fields
         $request->validate([
             'memberId' => 'required',
             'bookId' => 'required',
-            'reservation_date' => 'required|date',
+            'reservation_date' => 'required|date',  // Make sure it's a valid date
             'status' => 'required|boolean',
         ]);
 
+        // Parse the reservation date into a Carbon instance
+        $reservationDate = Carbon::parse($request->reservation_date);
+
+        // Create the reservation with formatted date
         Reservation::create([
             'memberId' => $request->memberId,
             'bookId' => $request->bookId,
-            'reservation_date' => $request->reservation_date,
+            'reservation_date' => $reservationDate->format('Y-m-d'), // Format it to the desired format
             'status' => $request->status,
         ]);
 

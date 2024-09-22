@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
     <h2>Update Reservation</h2>
-    <form action="{{ route('reservations.update', $reservation->reservationId) }}" method="POST">
+   <form action="{{ route('reservations.update', $reservation->id) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="form-group">
