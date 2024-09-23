@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Fine extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['memberId', 'issueId', 'amount', 'paidDate', 'reason', 'status'];
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class, 'memberId');
+    }
+
+    public function issue()
+    {
+        return $this->belongsTo(Issue::class, 'issueId');
+    }
 }

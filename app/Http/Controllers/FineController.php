@@ -2,63 +2,68 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fine;
+use App\Models\Member;
+use App\Models\Issue;
 use Illuminate\Http\Request;
 
 class FineController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $fines = Fine::with('member', 'issue')->get();
+        return view('fines.indexFine', compact('fines'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $members = Member::all();
+        $issues = Issue::all();
+        return view('fines.createFines', compact('members', 'issues'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'memberId' => 'required',
+            'issueId' => 'required',
+            'amount' => 'required|numeric',
+            'paidDate' => 'nullable|date',
+            'reason' => 'required|string',
+            'status' => 'required|boolean',
+        ]);
+
+        Fine::create($request->all());
+
+        return redirect()->route('fines.index')->with('success', 'Fine created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Fine $fine)
     {
-        //
+        $members = Member::all();
+        $issues = Issue::all();
+        return view('fines.updateFines', compact('fine', 'members', 'issues'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Fine $fine)
     {
-        //
+        $request->validate([
+            'memberId' => 'required',
+            'issueId' => 'required',
+            'amount' => 'required|numeric',
+            'paidDate' => 'nullable|date',
+            'reason' => 'required|string',
+            'status' => 'required|boolean',
+        ]);
+
+        $fine->update($request->all());
+
+        return redirect()->route('fines.index')->with('success', 'Fine updated successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Fine $fine)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $fine->delete();
+        return redirect()->route('fines.index')->with('success', 'Fine deleted successfully.');
     }
 }
