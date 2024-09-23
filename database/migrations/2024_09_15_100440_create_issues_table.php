@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('issues', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('issueId');
             $table->unsignedBigInteger('memberId');
             $table->unsignedBigInteger('bookId');
-            $table->date('due_date');
-            $table->date('return_date')->nullable();
+            $table->date('dueDate');  // Make sure this is included
+            $table->date('returnDate')->nullable();
             $table->boolean('status')->default(false);
             $table->decimal('amount', 8, 2)->nullable(); // Nullable if fines are not always applicable
             $table->timestamps();
